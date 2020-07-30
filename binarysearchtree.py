@@ -13,35 +13,26 @@ class Node:
 
     def is_leaf(self):
         """Checks if node is leaf"""
-        return not self.right_child and not self.left_child
+        return bool(not self.left_child and not self.right_child)
 
     def update_height(self):
-        """Update height function"""
-        self.height = 0
+        left_child_height = -1
+        right_child_height = -1
+        if self.left_child is not None:
+            left_child_height = self.left_child.height
+        if self.right_child is not None:
+            right_child_height = self.right_child.height
+        self.height = max(left_child_height, right_child_height) + 1
 
     def __str__(self):
-        """Prints a node"""
-        if self.is_leaf():
-            print(f"{self.data}--LEAF")
-        else:
-            print(self.data)
+        return f"Node({self.data})"
 
 
 
 class BinarySearchTree:
     """Binary Search Tree class"""
     def __init__(self):
-        self.size = 0
         self.root = None
-
-
-    #Remove helper variables
-
-    parent = None
-    parent_ref = None
-    search_parent = None
-    count = 0
-    pre_order = []
 
     def is_empty(self):
         """Checks if tree is empty"""
@@ -226,20 +217,29 @@ class BinarySearchTree:
             return (self.inorder(root.left_child) + [root.data] + self.inorder(root.right_child)) if root else []
         else:
             return (self.inorder(root.left_child) + [root.data] + self.inorder(root.right_child)) if root else []
-    def rebalance_tree(self):
-        print('')
+
+    def rebalance_tree(self, arr="No arr"):
+
+        if arr == "No arr":
+            arr = self.inorder()
+
+        if not arr:
+            return None
+
+        # find middle
+        mid = (len(arr)) // 2
+
+        # make the middle element the root
+        self.root = Node(arr[mid])
+
+        # left subtree of root has all
+        # values <arr[mid]
+        self.root.left_child = self.rebalance_tree(arr[:mid])
+
+        # right subtree of root has all
+        # values >arr[mid]
+        self.root.right_child = self.rebalance_tree(arr[mid + 1:])
+        return self.root
 
 
-tree = BinarySearchTree()
-tree.add(9)
-tree.add(5)
-tree.add(4)
-tree.add(6)
-tree.add(7)
-tree.add(1)
-tree.add(2)
-tree.add(7)
-tree.add(1)
-tree.add(2)
 
-print(tree.inorder())
