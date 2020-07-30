@@ -36,12 +36,10 @@ class TestRebalance(unittest.TestCase):
         data.sort()
         for x in data:
             bst.add(x)
-        print(bst)
         original_height = bst.height()
         self.assertEqual(data[0], bst.root.data)
 
         bst.rebalance_tree()
-        print(bst)
         tree_data = list(bst.inorder())
         self.assertEqual(data, tree_data)
         self.assertNotEqual(original_height, bst.height())
