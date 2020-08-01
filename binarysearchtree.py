@@ -16,6 +16,7 @@ class Node:
         return bool(not self.left_child and not self.right_child)
 
     def update_height(self):
+        """Update height"""
         left_child_height = -1
         right_child_height = -1
         if self.left_child is not None:
@@ -25,8 +26,8 @@ class Node:
         self.height = max(left_child_height, right_child_height) + 1
 
     def __str__(self):
+        """str function"""
         return f"Node({self.data})"
-
 
 
 class BinarySearchTree:
@@ -39,6 +40,7 @@ class BinarySearchTree:
         return self.root is None
 
     def add(self, data):
+        """Add function"""
         lyst = self.inorder()
         if data in lyst:
             pass
@@ -46,6 +48,7 @@ class BinarySearchTree:
             self.root = self.add_helper(self.root, data)
 
     def add_helper(self, cursor, data):
+        """Add helper"""
         RecursionCounter()
 
         if cursor is None:
@@ -62,9 +65,11 @@ class BinarySearchTree:
         return cursor
 
     def find(self, data):
+        """Find"""
         return self.find_helper(self.root, data)
 
     def find_helper(self, cursor, data):
+        """Find helper"""
         RecursionCounter()
 
         if cursor is None:
@@ -79,9 +84,11 @@ class BinarySearchTree:
             return self.find_helper(cursor.right_child, data)
 
     def remove(self, data):
+        """Remove"""
         self.root = self.remove_helper(self.root, data)
 
     def remove_helper(self, cursor, data):
+        """Remove helper"""
         RecursionCounter()
 
         if cursor is None:
@@ -113,9 +120,11 @@ class BinarySearchTree:
         return cursor
 
     def __len__(self):
+        """len """
         return self.length_helper(self.root)
 
     def length_helper(self, cursor):
+        """Len helper"""
         RecursionCounter()
 
         if cursor is None:
@@ -123,11 +132,13 @@ class BinarySearchTree:
         return 1 + self.length_helper(cursor.left_child) + self.length_helper(cursor.right_child)
 
     def __str__(self):
+        """Str"""
         offset = ""
         tmp = self.print_helper(self.root, offset)
         return tmp
 
     def print_helper(self, cursor, offset):
+        """Str helper"""
         RecursionCounter()
 
         if cursor is None:
@@ -140,11 +151,13 @@ class BinarySearchTree:
         self.print_helper(cursor.right_child, offset + "  ")
 
     def preorder(self):
+        """Pre order"""
         output = []
         self.preorder_helper(self.root, output)
         return output
 
     def preorder_helper(self, cursor, output):
+        """Pre order helper"""
         RecursionCounter()
 
         if cursor is None:
@@ -155,19 +168,21 @@ class BinarySearchTree:
         self.preorder_helper(cursor.right_child, output)
 
     def height(self):
+        """Height"""
         if self.root is None:
             return -1
         return self.root.height
 
     def inorder(self, root="empty"):
+        """In order"""
         if root == "empty":
             root = self.root
             return (self.inorder(root.left_child) + [root.data] + self.inorder(root.right_child)) if root else []
         else:
             return (self.inorder(root.left_child) + [root.data] + self.inorder(root.right_child)) if root else []
 
-    def rebalance_tree(self, arr="m"):
-        """A method to rebalance the binary search tree"""
+    def rebalance_tree(self):
+        """Rebalance tree"""
         lyst = self.inorder()
         self.root = None
         midpoint = int(len(lyst) / 2)
@@ -176,7 +191,7 @@ class BinarySearchTree:
         root = lyst.pop(midpoint)
 
         def recursor(left, right):
-            """Recursive helper function for the rebalance method"""
+            """Rebalance helper"""
             RecursionCounter()
             if len(left) > 0:
                 mid_left = int(len(left) / 2)
